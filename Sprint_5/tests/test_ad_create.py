@@ -39,8 +39,6 @@ class TestAdCreateAuthorized:
 
         wait.until(EC.element_to_be_clickable(locators.CREATE_AD_BUTTON)).click()
         
-        # wait.until(EC.element_to_be_clickable(locators.AD_PUBLISH_BUTTON))
-
         unique_title = f"Тестовый товар {int(time.time())}"
         wait.until(EC.visibility_of_element_located(locators.AD_NAME_FIELD2)).send_keys(unique_title)
 
