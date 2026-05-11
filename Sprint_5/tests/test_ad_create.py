@@ -1,27 +1,26 @@
-# tests/test_ad_create.py
 import pytest
 import time
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 import locators
+from constants import BASE_URL
 
 
 class TestAdCreateUnauthorized:
     def test_create_ad_unauthorized_shows_auth_modal(self, driver):
-        driver.get("https://qa-desk.education-services.ru/")
+        driver.get(BASE_URL)
         wait = WebDriverWait(driver, 10)
 
         wait.until(EC.element_to_be_clickable(locators.CREATE_AD_BUTTON)).click()
 
-        modal_title = wait.until(
+        assert wait.until(
             EC.visibility_of_element_located(locators.AUTH_MODAL_TITLE)
-        )
-        assert modal_title.text == "Чтобы разместить объявление, авторизуйтесь"
+        ).text == "Чтобы разместить объявление, авторизуйтесь"
 
 
 class TestAdCreateAuthorized:
     def test_create_ad_authorized_shows_in_profile(self, driver):
-        driver.get("https://qa-desk.education-services.ru/")
+        driver.get(BASE_URL)
         wait = WebDriverWait(driver, 10)
 
         wait.until(EC.element_to_be_clickable(locators.HEADER_AUTH_BUTTON)).click()
@@ -62,4 +61,6 @@ class TestAdCreateAuthorized:
 
         driver.find_element(*locators.HEADER_AVATAR_BUTTON).click()
 
-        wait.until(EC.presence_of_element_located(locators.AD_CARD))
+        assert unique_title in wait.until(
+            EC.presence_of_element_located(locators.AD_CARD)
+        ).text

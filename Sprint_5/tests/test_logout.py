@@ -3,10 +3,11 @@ import time
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 import locators
+from constants import BASE_URL
 
 class TestLogout:
     def test_logout_shows_auth_button(self, driver):
-        driver.get("https://qa-desk.education-services.ru/")
+        driver.get(BASE_URL)
         wait = WebDriverWait(driver, 10)
 
         wait.until(EC.visibility_of_element_located(locators.HEADER_AUTH_BUTTON)).click()
@@ -22,6 +23,7 @@ class TestLogout:
         wait.until(EC.visibility_of_element_located(locators.MAIN_PAGE_USERNAME))
         wait.until(EC.visibility_of_element_located(locators.LOGOUT_BUTTON)).click()
 
-        # Ждём, пока кнопка входа снова станет видимой
-        auth_button = wait.until(EC.visibility_of_element_located(locators.HEADER_AUTH_BUTTON))
-        assert auth_button.is_displayed()
+        assert wait.until(
+            EC.visibility_of_element_located(locators.HEADER_AUTH_BUTTON)
+        ).is_displayed()
+        

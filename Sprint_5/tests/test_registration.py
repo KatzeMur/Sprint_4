@@ -3,10 +3,11 @@ import time
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 import locators
+from constants import BASE_URL
 
 class TestRegistration:
     def test_registration_valid_data_shows_username(self, driver):
-        driver.get("https://qa-desk.education-services.ru/")
+        driver.get(BASE_URL)
         wait = WebDriverWait(driver, 10)
 
         wait.until(EC.visibility_of_element_located(locators.HEADER_AUTH_BUTTON)).click()
@@ -23,7 +24,7 @@ class TestRegistration:
         assert "User" in username_element.text
 
     def test_registration_invalid_email_shows_error_message(self, driver):
-        driver.get("https://qa-desk.education-services.ru/")
+        driver.get(BASE_URL)
         wait = WebDriverWait(driver, 10)
 
         wait.until(EC.visibility_of_element_located(locators.HEADER_AUTH_BUTTON)).click()
@@ -34,11 +35,12 @@ class TestRegistration:
         wait.until(EC.visibility_of_element_located(locators.REG_REPEAT_PASSWORD_FIELD)).send_keys("Qwerty123!")
         wait.until(EC.visibility_of_element_located(locators.CREATE_ACCOUNT_BUTTON)).click()
 
-        error_element = wait.until(EC.visibility_of_element_located(locators.REG_EMAIL_ERROR_MESSAGE))
-        assert "Ошибка" in error_element.text
+        assert "Ошибка" in wait.until(
+            EC.visibility_of_element_located(locators.REG_EMAIL_ERROR_MESSAGE)
+        ).text
 
     def test_registration_existing_user_shows_error_message(self, driver):
-        driver.get("https://qa-desk.education-services.ru/")
+        driver.get(BASE_URL)
         wait = WebDriverWait(driver, 10)
 
         wait.until(EC.visibility_of_element_located(locators.HEADER_AUTH_BUTTON)).click()
@@ -67,5 +69,7 @@ class TestRegistration:
         wait.until(EC.visibility_of_element_located(locators.REG_REPEAT_PASSWORD_FIELD)).send_keys("Qwerty123!")
         wait.until(EC.visibility_of_element_located(locators.CREATE_ACCOUNT_BUTTON)).click()
 
-        error_element = wait.until(EC.visibility_of_element_located(locators.REG_EMAIL_ERROR_MESSAGE))
-        assert "Ошибка" in error_element.text
+        assert "Ошибка" in wait.until(
+            EC.visibility_of_element_located(locators.REG_EMAIL_ERROR_MESSAGE)
+        ).text
+        

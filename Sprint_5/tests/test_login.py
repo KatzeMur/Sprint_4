@@ -3,11 +3,12 @@ import time
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 import locators
+from constants import BASE_URL
 
 
 class TestLogin:
     def test_login_valid_credentials_after_registration_shows_username(self, driver):
-        driver.get("https://qa-desk.education-services.ru/")
+        driver.get(BASE_URL)
         wait = WebDriverWait(driver, 10)
 
         wait.until(EC.visibility_of_element_located(locators.HEADER_AUTH_BUTTON)).click()
@@ -33,3 +34,4 @@ class TestLogin:
 
         username = wait.until(EC.visibility_of_element_located(locators.MAIN_PAGE_USERNAME))
         assert "User" in username.text
+        
